@@ -56,7 +56,6 @@
 </div>
 
 
-
 <script>
 
 function uploadPhoto(event) {
