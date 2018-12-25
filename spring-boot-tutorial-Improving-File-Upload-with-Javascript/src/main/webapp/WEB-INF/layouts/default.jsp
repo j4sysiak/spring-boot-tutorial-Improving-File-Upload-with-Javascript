@@ -93,7 +93,6 @@
 	<tiles:insertAttribute name="content" />
 </div>
 
- 
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="${contextRoot}/js/bootstrap.min.js"></script>
 
