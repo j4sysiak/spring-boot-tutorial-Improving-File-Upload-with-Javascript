@@ -43,12 +43,11 @@
 			<a href="${editProfileAbout}">edit</a>
 		</div>
 		 
-		<p>&nbsp;</p>
 		
 		<c:url value="/upload-profile-photo" var="uploadPhotoLink" />
 		<form method="post" enctype="multipart/form-data" id="photoUploadForm" action="${uploadPhotoLink}" >
 			
-			select photo: <input type="file" accept="image/*" name="file" id="photoFileInput" />
+			<input type="file" accept="image/*" name="file" id="photoFileInput" />
 			<input type="submit" value="upload" />
 			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 		
@@ -88,7 +87,7 @@ function uploadPhoto(event) {
 		contentType: false,
 		success: uploadSuccess,
 		error: function() {
-			alert("error");
+			setUploadStatusText("Error: Image upload failed (invalid image?)");
 		}
 	});
 	
