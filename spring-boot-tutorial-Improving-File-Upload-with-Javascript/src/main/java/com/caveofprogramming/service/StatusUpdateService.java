@@ -24,7 +24,7 @@ public class StatusUpdateService {
 		statusUpdateDao.save(statusUpdate);
 	}
 	
-	@PreAuthorize("isAuthenticated()")
+	//@PreAuthorize("isAuthenticated()")
 	public StatusUpdate getLatest() {
 		return statusUpdateDao.findFirstByOrderByAddedDesc();
 	}
