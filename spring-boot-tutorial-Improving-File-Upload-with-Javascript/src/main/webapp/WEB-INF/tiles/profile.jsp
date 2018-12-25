@@ -15,7 +15,13 @@
 		<div class="profile-about">
 
 			<div class="profile-image">
-				<img src="${profilePhoto}" />
+				<div>
+					<img src="${profilePhoto}" />
+				</div>
+				
+				<div class="text-center">
+					<a href="#" id="uploadLink">Upload photo</a>
+				</div>
 			</div>
 
 			<div class="profile-text">
