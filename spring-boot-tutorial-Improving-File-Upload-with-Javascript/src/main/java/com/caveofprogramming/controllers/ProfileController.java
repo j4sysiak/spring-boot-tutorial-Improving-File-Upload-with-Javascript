@@ -136,6 +136,8 @@ public class ProfileController {
 		
 		Path oldPhotoPath = profile.getPhoto(photoUploadDirectory);
 		
+//		PhotoUploadStatus status = new PhotoUploadStatus(photoStatusOK);
+		
 		try {
 			FileInfo photoInfo = fileService.saveImageFile(file, photoUploadDirectory, "photos", "pr"+user.getId(), 100, 100);
 			//System.out.println(photoInfo);
@@ -154,33 +156,6 @@ public class ProfileController {
 			e.printStackTrace();
 		}
  
-		
-//		Path oldPhotoPath = profile.getPhoto(photoUploadDirectory);
-//		
-//		PhotoUploadStatus status = new PhotoUploadStatus(photoStatusOK);
-//
-//		try {
-//			FileInfo photoInfo = fileService.saveImageFile(file, photoUploadDirectory, "photos", "p" + user.getId(),
-//					100, 100);
-//
-//			profile.setPhotoDetails(photoInfo);
-//			profileService.save(profile);
-//
-//			if (oldPhotoPath != null) {
-//				Files.delete(oldPhotoPath);
-//			}
-//
-//		} catch (InvalidFileException e) {
-//			status.setMessage(photoStatusInvalid);
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			status.setMessage(photoStatusIOException);
-//			e.printStackTrace();
-//		} catch (ImageTooSmallException e) {
-//			status.setMessage(photoStatusTooSmall);
-//			e.printStackTrace();
-//		}
-//
 //		return new ResponseEntity(status, HttpStatus.OK);
 		
 		return modelAndView; 
