@@ -59,6 +59,13 @@
 
 <script>
 
+function uploadPhoto(event) {
+	
+	console.log("Form being submitted");
+	//alert("Hello4");
+	event.preventDefault();
+}
+
 $(document).ready(function() {
 	console.log("Document loaded.");
 	//alert("Hello1");
@@ -77,6 +84,8 @@ $(document).ready(function() {
 								$("#photoUploadForm").submit();
 							}
 						  );
+	
+	$("#photoUploadForm").on("submit", uploadPhoto);
 	
 });
 
