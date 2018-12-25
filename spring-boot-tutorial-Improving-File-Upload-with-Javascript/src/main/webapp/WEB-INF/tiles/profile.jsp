@@ -16,7 +16,7 @@
 
 			<div class="profile-image">
 				<div>
-					<img src="${profilePhoto}" />
+					<img id= "profilePhotoImage" src="${profilePhoto}" />
 				</div>
 				
 				<div class="text-center">
@@ -40,11 +40,11 @@
 		<div class="profile-about-edit">
 			<a href="${editProfileAbout}">edit</a>
 		</div>
-		
-		
+		 
 		<p>&nbsp;</p>
+		
 		<c:url value="/upload-profile-photo" var="uploadPhotoLink" />
-		<form method="post" enctype="multipart/form-data" id="photoUploadForm" action="${uploadPhotoLink}">
+		<form method="post" enctype="multipart/form-data" id="photoUploadForm" action="${uploadPhotoLink}" >
 			
 			select photo: <input type="file" accept="image/*" name="file" id="photoFileInput" />
 			<input type="submit" value="upload" />
@@ -56,7 +56,17 @@
 </div>
 
 
+
 <script>
+
+function uploadSuccess(data) {
+	
+	$("#profilePhotoImage").attr("src", "${profilePhoto}?time=" + new Date().getMilliseconds());
+	
+ 	$("#photoFileInput").val("");
+	
+ 	//setUploadStatusText(data.message);
+}
 
 function uploadPhoto(event) {
 	
@@ -66,26 +76,20 @@ function uploadPhoto(event) {
 		data: new FormData(this),
 		processData: false,
 		contentType: false,
-		success: function(data) {
-			alert(data.message);
-		},
+		success: uploadSuccess,
 		error: function() {
 			alert("error");
 		}
 	});
 	
-	console.log("Form being submitted");
-	//alert("Hello4");
 	event.preventDefault();
 }
 
 $(document).ready(function() {
 	console.log("Document loaded.");
-	//alert("Hello1");
 	
 	$("#uploadLink").click(
 							function(event) {
-								//alert("Hello2");
 								event.preventDefault();
 								$("#photoFileInput").trigger('click');
 							}
@@ -93,17 +97,15 @@ $(document).ready(function() {
 	
 	$("#photoFileInput").change(
 							function() {
-								//alert("Hello3");
 								$("#photoUploadForm").submit();
 							}
-						  );
+								);
 	
 	$("#photoUploadForm").on("submit", uploadPhoto);
 	
 });
 
 </script>
-
 
 
 

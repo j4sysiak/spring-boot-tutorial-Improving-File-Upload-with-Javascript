@@ -67,6 +67,7 @@ public class ProfileController {
 	@Value("${photo.upload.directory}")
 	private String photoUploadDirectory;
 	
+	
 	private SiteUser getUser() {
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -151,7 +152,7 @@ public class ProfileController {
 		PhotoUploadStatus status = new PhotoUploadStatus(photoStatusOK);
 		
 		try {
-			FileInfo photoInfo = fileService.saveImageFile(file, photoUploadDirectory, "photos", "pr" + user.getId(), 100, 100);
+			FileInfo photoInfo = fileService.saveImageFile(file, photoUploadDirectory, "photos", "p" + user.getId(), 100, 100);
 			//System.out.println(photoInfo);
  			profile.setPhotoDetails(photoInfo);
  			profileService.save(profile);
@@ -173,6 +174,7 @@ public class ProfileController {
   
         return new ResponseEntity(status, HttpStatus.OK);
 	}
+	
 	
 	@RequestMapping(value = "/profilephoto", method = RequestMethod.GET)
 	@ResponseBody
