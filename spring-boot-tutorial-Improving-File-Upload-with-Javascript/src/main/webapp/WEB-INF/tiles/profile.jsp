@@ -44,11 +44,10 @@
 		
 		<p>&nbsp;</p>
 		<c:url value="/upload-profile-photo" var="uploadPhotoLink" />
-		<form method="post" enctype="multipart/form-data" action="${uploadPhotoLink}">
+		<form method="post" enctype="multipart/form-data" id="photoUploadForm" action="${uploadPhotoLink}">
 			
-			select photo: <input type="file" accept="image/*" name="file" />
+			select photo: <input type="file" accept="image/*" name="file" id="photoFileInput" />
 			<input type="submit" value="upload" />
-			
 			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 		
 		</form>
@@ -62,6 +61,23 @@
 
 $(document).ready(function() {
 	console.log("Document loaded.");
+	//alert("Hello1");
+	
+	$("#uploadLink").click(
+							function(event) {
+								//alert("Hello2");
+								event.preventDefault();
+								$("#photoFileInput").trigger('click');
+							}
+						  );
+	
+	$("#photoFileInput").change(
+							function() {
+								//alert("Hello3");
+								$("#photoUploadForm").submit();
+							}
+						  );
+	
 });
 
 </script>
