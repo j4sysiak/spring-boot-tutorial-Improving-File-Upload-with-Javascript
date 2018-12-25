@@ -34,6 +34,7 @@ import com.caveofprogramming.model.SiteUser;
 import com.caveofprogramming.service.FileService;
 import com.caveofprogramming.service.ProfileService;
 import com.caveofprogramming.service.SiteUserService;
+import com.caveofprogramming.status.PhotoUploadStatus;
 
 @Controller
 public class ProfileController {
@@ -49,6 +50,18 @@ public class ProfileController {
 	
 	@Autowired
 	FileService fileService;
+	
+	@Value("${photo.upload.ok}")
+	private String photoStatusOK;
+	 
+	@Value("${photo.upload.invalid}")
+	private String photoStatusInvalid;
+	
+	@Value("${photo.upload.ioexception}")
+	private String photoStatusIOException;
+	
+	@Value("${photo.upload.toosmall}")
+	private String photoStatusTooSmall;
 	
 	@Value("${photo.upload.directory}")
 	private String photoUploadDirectory;
@@ -126,39 +139,38 @@ public class ProfileController {
 	
 	
 	@RequestMapping(value = "/upload-profile-photo", method = RequestMethod.POST)
-//	@ResponseBody // Return data in JSON format
-	public ModelAndView /*ResponseEntity<PhotoUploadStatus>*/  handlePhotoUploads(ModelAndView modelAndView, @RequestParam("file") MultipartFile file) {
-
-		modelAndView.setViewName("redirect:/profile");
+    @ResponseBody // Return data in JSON format
+	public PhotoUploadStatus /*ResponseEntity<PhotoUploadStatus>*/ handlePhotoUploads(@RequestParam("file") MultipartFile file) {
 		
 		SiteUser user = getUser();
 		Profile profile = profileService.getUserProfile(user);
 		
 		Path oldPhotoPath = profile.getPhoto(photoUploadDirectory);
 		
-//		PhotoUploadStatus status = new PhotoUploadStatus(photoStatusOK);
+		PhotoUploadStatus status = new PhotoUploadStatus(photoStatusOK);
 		
 		try {
-			FileInfo photoInfo = fileService.saveImageFile(file, photoUploadDirectory, "photos", "pr"+user.getId(), 100, 100);
+			FileInfo photoInfo = fileService.saveImageFile(file, photoUploadDirectory, "photos", "pr" + user.getId(), 100, 100);
 			//System.out.println(photoInfo);
-			profile.setPhotoDetails(photoInfo);
-			profileService.save(profile);
-			
+ 			profile.setPhotoDetails(photoInfo);
+ 			profileService.save(profile);
+ 
  			if (oldPhotoPath != null) {
  				Files.delete(oldPhotoPath);
  			}
 			
 		} catch (InvalidFileException e) {
+			status.setMessage(photoStatusInvalid);
 			e.printStackTrace();
 		} catch (IOException e) {
+			status.setMessage(photoStatusIOException);
 			e.printStackTrace();
 		} catch (ImageTooSmallException e) {
+			status.setMessage(photoStatusTooSmall);
 			e.printStackTrace();
 		}
- 
-//		return new ResponseEntity(status, HttpStatus.OK);
-		
-		return modelAndView; 
+  
+        return status; //new ResponseEntity(status, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/profilephoto", method = RequestMethod.GET)
