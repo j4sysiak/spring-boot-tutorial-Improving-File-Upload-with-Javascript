@@ -61,6 +61,20 @@
 
 function uploadPhoto(event) {
 	
+	$.ajax({
+		url: $(this).attr("action"),
+		type: 'POST',
+		data: new FormData(this),
+		processData: false,
+		contentType: false,
+		success: function(data) {
+			alert(data.message);
+		},
+		error: function() {
+			alert("error");
+		}
+	});
+	
 	console.log("Form being submitted");
 	//alert("Hello4");
 	event.preventDefault();
